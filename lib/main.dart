@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: new ThemeData(
           primarySwatch: Colors.deepPurple, accentColor: Colors.cyan),
-      home: new MyHomePage(title: 'Benchmark'),
+      home: new MyHomePage(title: 'Campuses'),
     );
   }
 }
@@ -49,24 +49,33 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  List<Widget> _BuildCampuses() {
-    return _campuses
-        .map<Widget>((campus) => Container(
-              child: Row(
-                children: <Widget>[
-                  Text(campus.name),
-                  Text("created_at: ${campus.createdAt}")
-                ],
-              ),
-            ))
-        .toList();
+  Widget _BuildCampus(Campus campus) {
+    return ListTile(
+      title: Row(
+        children: <Widget>[
+          Icon(Icons.location_city),
+          Text(campus.name),
+        ],
+      ),
+      subtitle: Text("created_at: ${campus.createdAt}"),
+    );
+  }
+
+  Widget buildBody() {
+    return ListView.builder(
+      itemCount: _campuses.length,
+      itemBuilder: (context, index) {
+        var campus = _campuses[index];
+        return _BuildCampus(campus);
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(widget.title),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -77,21 +86,12 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      body: buildSingleChildScrollView(),
-      floatingActionButton: new FloatingActionButton(
-        onPressed: _pullCampuses,
-        tooltip: 'Get Campuses',
-        child: new Icon(Icons.search),
-      ),
-    );
-  }
-
-  Widget buildSingleChildScrollView() {
-    return new SingleChildScrollView(
-      child: new Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: _BuildCampuses(),
-      ),
+      body: buildBody(),
+//      floatingActionButton: new FloatingActionButton(
+//        onPressed: _pullCampuses,
+//        tooltip: 'Get Campuses',
+//        child: new Icon(Icons.search),
+//      ),
     );
   }
 }
