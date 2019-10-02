@@ -32,7 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _pullCampuses() async {
     var response =
-        await http.get("https://benchmark.mattclark.guru/campuses.json");
+        await http.get("https://benchmark.mattclark.guru/api/v1/campuses.json");
     if (response.statusCode >= 200 && response.statusCode < 400) {
       print(response.body);
       var data = json.decode(response.body);
